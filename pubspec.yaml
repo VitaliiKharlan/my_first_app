@@ -61,3 +61,15 @@ flutter:
     - family: Parisienne
       fonts:
         - asset: assets/fonts/parisienne/regular.ttf
+
+    - family: DM Sans
+      fonts:
+        - asset: assets/fonts/dm_sans/regular.ttf
+          weight: 400
+
+    - family: Lufga
+      fonts:
+        - asset: assets/fonts/lufga/medium.ttf
+          weight: 500
+        - asset: assets/fonts/lufga/bold.ttf
+          weight: 600
