@@ -11,7 +11,7 @@ abstract class AppTextStyle {
   );
 
   static const headingH4 = TextStyle(
-    fontFamily: 'DM Sans',
+    fontFamily: 'Lufga',
     fontSize: 18,
     fontStyle: FontStyle.normal,
     fontWeight: FontWeight.w600,
@@ -20,7 +20,7 @@ abstract class AppTextStyle {
   );
 
   static const headingH5 = TextStyle(
-    fontFamily: 'DM Sans',
+    fontFamily: 'Lufga',
     fontSize: 16,
     fontStyle: FontStyle.normal,
     fontWeight: FontWeight.w500,

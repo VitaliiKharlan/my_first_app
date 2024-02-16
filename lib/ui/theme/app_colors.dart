@@ -46,4 +46,16 @@ abstract class AppColors {
   static const Color indicatorsWarningMain = Color(0xFFFFBC0C);
   static const Color indicatorsWarningLight = Color(0xFFFFF7E0);
   static const Color indicatorsWarningDark = Color(0xFFC28B00);
+
+  // Others
+  static const Color othersMain = Color(0xFF565F6B);
+  static const Color othersLight = Color(0xFF565F6B);
+  static const Color othersDark = Color(0xFF565F6B);
+
+  // Content
+  static const Color contentPrimaryMain = Color(0xFF15171B);
+  static const Color contentPrimaryLight = Color(0xFF15171B);
+  static const Color contentPrimaryDark = Color(0xFF15171B);
 }
+
+
