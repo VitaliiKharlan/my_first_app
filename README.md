@@ -25,3 +25,11 @@ flutter pub run flutter_launcher_icons
 flutter packages pub run build_runner watch
 
 
+# how to add a commit
+
+git commit -m "add readme"
+git add .
+git commit -m "add readme"
+git branch -M main
+git push -u main
+
