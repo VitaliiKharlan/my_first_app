@@ -16,12 +16,18 @@ class _MainState extends State<Main> {
   final model = MainScreenModel();
 
   @override
+  void initState() {
+    super.initState();
+    model.updatePosts();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
         child: MainScreenModelProvider(
           model: model,
-          child: const MainScreenAuxiliary(),
+          child: const MainScreen(),
           // Column(
           //   crossAxisAlignment: CrossAxisAlignment.center,
           //   children: [
@@ -45,29 +51,11 @@ class _MainState extends State<Main> {
   }
 }
 
-class MainScreenAuxiliary extends StatelessWidget {
-  const MainScreenAuxiliary({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return SafeArea(
-      child: ListView.builder(
-        physics: const BouncingScrollPhysics(),
-        keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
-        itemCount:
-            MainScreenModelProvider.watch(context)?.model.news.length ?? 0,
-        itemExtent: 240,
-        itemBuilder: (BuildContext context, int index) {
-          return const MainScreen();
-        },
-      ),
-    );
-  }
-}
 
 class MainScreen extends StatelessWidget {
   const MainScreen({
     super.key,
+
   });
 
   @override
@@ -95,15 +83,16 @@ class MainScreen extends StatelessWidget {
           ],
         ),
         titleTextStyle:
-            AppTextStyle.headingH4.copyWith(color: AppColors.utilityWhite),
+        AppTextStyle.headingH4.copyWith(color: AppColors.utilityWhite),
       ),
       body: SafeArea(
         child: ListView.builder(
           physics: const BouncingScrollPhysics(),
           keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
-          itemCount: 4,
-          // itemCount: 4,
-          itemExtent: 240,
+          itemCount:
+            MainScreenModelProvider.watch(context)?.model.news.length ?? 0,
+
+          // itemExtent: 240,
           itemBuilder: (context, index) {
             // final newsOne = model.news.first;
             return Padding(
@@ -132,8 +121,8 @@ class MainScreen extends StatelessWidget {
                               .copyWith(color: AppColors.othersMain),
                         ),
                         const SizedBox(height: 16),
-                        const FirstNewsWidget(),
-                        const SecondNewsWidget(),
+                        FirstNewsWidget(index: index),
+                        // SecondNewsWidget(index: index),
                       ],
                     ),
                   ),
@@ -148,25 +137,28 @@ class MainScreen extends StatelessWidget {
 }
 
 class FirstNewsWidget extends StatelessWidget {
+  final int index;
+
   const FirstNewsWidget({
     super.key,
+    required this.index,
   });
 
   @override
   Widget build(BuildContext context) {
-    const index = 1;
+    // const index = 1;
     return Row(
       children: [
-        const Expanded(
+        Expanded(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              RowOneWidget(),
-              SizedBox(height: 8),
+              const RowOneWidget(),
+              const SizedBox(height: 8),
               RowTwoWidget(index: index),
-              SizedBox(height: 8),
-              RowThreeWidget(),
-              SizedBox(height: 16),
+              const SizedBox(height: 8),
+              const RowThreeWidget(),
+              const SizedBox(height: 16),
             ],
           ),
         ),
@@ -183,13 +175,16 @@ class FirstNewsWidget extends StatelessWidget {
 }
 
 class SecondNewsWidget extends StatelessWidget {
+  final int index;
+
   const SecondNewsWidget({
     super.key,
+    required this.index,
   });
 
   @override
   Widget build(BuildContext context) {
-    const index = 1;
+    // const index = 1;
     // final model = MainScreenModel();
     // final newsOne = MainScreenModelProvider.read(context)?.model.news[index];
     // if (newsOne == null) {
@@ -203,16 +198,16 @@ class SecondNewsWidget extends StatelessWidget {
     // }
     return Row(
       children: [
-        const Expanded(
+        Expanded(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              RowOneWidget(),
-              SizedBox(height: 8),
+              const RowOneWidget(),
+              const SizedBox(height: 8),
               RowTwoWidget(index: index),
-              SizedBox(height: 8),
-              RowThreeWidget(),
-              SizedBox(height: 16),
+              const SizedBox(height: 8),
+              const RowThreeWidget(),
+              const SizedBox(height: 16),
             ],
           ),
         ),
@@ -257,16 +252,18 @@ class RowTwoWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final model = MainScreenModel();
-    final newsOne = MainScreenModelProvider.read(context)?.model.news[index];
+    final newsOne = MainScreenModelProvider
+        .read(context)
+        ?.model
+        .news[index];
     if (newsOne == null) {
       return const ColoredBox(
-      color: Colors.red,
-      child: SizedBox(
-        height: 20,
-        width: 20,
-      ),
-    );
+        color: Colors.red,
+        child: SizedBox(
+          height: 20,
+          width: 20,
+        ),
+      );
     }
     return Row(
       children: [
