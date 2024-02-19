@@ -1,26 +1,26 @@
 import 'package:json_annotation/json_annotation.dart';
 
-part 'test_request.g.dart';
+part 'news_request.g.dart';
 
 @JsonSerializable(fieldRename: FieldRename.snake, explicitToJson: true)
-class TestRequest {
-  final String id;
-  final String symbol;
-  final String name;
-  final String exchange;
-  final String mic;
-  final int quantityPrecision;
-  final String currency;
-  final bool isInternal;
-  final String issueType;
-  final String assetClass;
-  final String logo;
-  final List<String> tags;
-  final int sortOrder;
-  final String lastModified;
-  final List<String> summary;
+class NewsRequest {
+  final String? id;
+  final String? symbol;
+  final String? name;
+  final String? exchange;
+  final String? mic;
+  final int? quantityPrecision;
+  final String? currency;
+  final bool? isInternal;
+  final String? issueType;
+  final String? assetClass;
+  final String? logo;
+  final List<String>? tags;
+  final int? sortOrder;
+  final String? lastModified;
+  final Map<String, dynamic>? summary;
 
-  TestRequest({
+  NewsRequest({
     required this.id,
     required this.symbol,
     required this.name,
@@ -38,10 +38,16 @@ class TestRequest {
     required this.summary,
   });
 
-  factory TestRequest.fromJson(Map<String, dynamic> json) =>
-      _$TestRequestFromJson(json);
+  factory NewsRequest.fromJson(Map<String, dynamic> json) =>
+      _$NewsRequestFromJson(json);
 
-  Map<String, dynamic> toJson() => _$TestRequestToJson(this);
+  Map<String, dynamic> toJson() => _$NewsRequestToJson(this);
+
+  // static DateTime? _parseDateFromString(String? rawDate) {
+  //   if (rawDate == null || rawDate.isEmpty) return null;
+  //   return DateTime.tryParse(rawDate);
+  // }
+
 }
 
 
