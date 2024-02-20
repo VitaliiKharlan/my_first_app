@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import '../../domain/api_client/api_client.dart';
 import '../../domain/entity/news_request.dart';
 
@@ -13,6 +14,11 @@ class MainScreenModel extends ChangeNotifier {
     _news += news;
     notifyListeners();
   }
+
+// late DateFormat _dateFormat;
+//
+// String stringFromDate(DateTime? date) =>
+//     date != null ? _dateFormat.format(date) : '';
 }
 
 class MainScreenModelProvider extends InheritedNotifier {

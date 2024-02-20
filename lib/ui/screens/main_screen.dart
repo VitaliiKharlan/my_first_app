@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+
 import '../theme/app_colors.dart';
 import '../theme/app_text_style.dart';
 import 'main_screen_model.dart';
@@ -56,7 +57,7 @@ class MainScreen extends StatelessWidget {
               ),
               child: IconButton(
                 onPressed: () {},
-                icon: const Icon(Icons.arrow_back_ios),
+                icon: const Icon(Icons.arrow_back),
               ),
             ),
             const Text('MSFT News'),
@@ -72,7 +73,12 @@ class MainScreen extends StatelessWidget {
           itemCount:
               MainScreenModelProvider.watch(context)?.model.news.length ?? 0,
           itemBuilder: (context, index) {
-            // final newsOne = model.news.first;
+            final newsOne =
+                MainScreenModelProvider.read(context)?.model.news[index];
+
+            var inputFormat = DateTime.parse(newsOne!.lastModified.toString());
+            var outputFormat = DateFormat.d().add_MMMM().add_y().format(inputFormat);
+
             return Padding(
               padding: const EdgeInsets.only(
                 left: 0,
@@ -94,7 +100,8 @@ class MainScreen extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Today',
+                          outputFormat.toString(),
+                          // newsOne?.lastModified.toString(),
                           style: AppTextStyle.headingH4
                               .copyWith(color: AppColors.othersValueMain),
                         ),
