@@ -48,9 +48,17 @@ abstract class AppColors {
   static const Color indicatorsWarningDark = Color(0xFFC28B00);
 
   // Others
-  static const Color othersMain = Color(0xFF565F6B);
-  static const Color othersLight = Color(0xFF565F6B);
-  static const Color othersDark = Color(0xFF565F6B);
+  static const Color othersValueMain = Color(0xFF565F6B);
+  static const Color othersValueLight = Color(0xFF565F6B);
+  static const Color othersValueDark = Color(0xFF565F6B);
+
+  static const Color othersIncreaseMain = Color(0xFF026973);
+  static const Color othersIncreaseLight = Color(0xFF026973);
+  static const Color othersIncreaseDark = Color(0xFF026973);
+
+  static const Color othersDecreaseMain = Color(0xFFD73B51);
+  static const Color othersDecreaseLight = Color(0xFFD73B51);
+  static const Color othersDecreaseDark = Color(0xFFD73B51);
 
   // Content
   static const Color contentPrimaryMain = Color(0xFF15171B);

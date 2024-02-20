@@ -1,8 +1,9 @@
 import 'package:json_annotation/json_annotation.dart';
+import 'movie_date_release.parser.dart';
 
 part 'news_request.g.dart';
 
-@JsonSerializable(fieldRename: FieldRename.snake, explicitToJson: true)
+@JsonSerializable(explicitToJson: true)
 class NewsRequest {
   final String? id;
   final String? symbol;
@@ -17,7 +18,8 @@ class NewsRequest {
   final String? logo;
   final List<String>? tags;
   final int? sortOrder;
-  final String? lastModified;
+  @JsonKey(fromJson: parseNewsLastModifiedFromString)
+  final DateTime? lastModified;
   final Map<String, dynamic>? summary;
 
   NewsRequest({
@@ -42,15 +44,7 @@ class NewsRequest {
       _$NewsRequestFromJson(json);
 
   Map<String, dynamic> toJson() => _$NewsRequestToJson(this);
-
-  // static DateTime? _parseDateFromString(String? rawDate) {
-  //   if (rawDate == null || rawDate.isEmpty) return null;
-  //   return DateTime.tryParse(rawDate);
-  // }
-
 }
-
-
 
 /*
 

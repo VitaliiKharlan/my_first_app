@@ -1,6 +1,7 @@
-import 'package:flutter/material.dart';
+import 'dart:math';
 
-import '../../images.dart';
+import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import '../theme/app_colors.dart';
 import '../theme/app_text_style.dart';
 import 'main_screen_model.dart';
@@ -18,44 +19,23 @@ class _MainState extends State<Main> {
   @override
   void initState() {
     super.initState();
-    model.updatePosts();
+    model.updateNewsRequests();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
-        child: MainScreenModelProvider(
-          model: model,
-          child: const MainScreen(),
-          // Column(
-          //   crossAxisAlignment: CrossAxisAlignment.center,
-          //   children: [
-          //     const SizedBox(height: 100),
-          //     const _ReloadButton(),
-          //     const SizedBox(height: 100),
-          //     const _CreateButton(),
-          //     const Expanded(
-          //       flex: 1,
-          //       child: Padding(
-          //         padding: EdgeInsets.symmetric(horizontal: 20),
-          //         child: _PostsWidget(),
-          //       ),
-          //     ),
-          //
-          //   ],
-          // ),
-        ),
+      body: MainScreenModelProvider(
+        model: model,
+        child: const MainScreen(),
       ),
     );
   }
 }
 
-
 class MainScreen extends StatelessWidget {
   const MainScreen({
     super.key,
-
   });
 
   @override
@@ -83,16 +63,14 @@ class MainScreen extends StatelessWidget {
           ],
         ),
         titleTextStyle:
-        AppTextStyle.headingH4.copyWith(color: AppColors.utilityWhite),
+            AppTextStyle.headingH4.copyWith(color: AppColors.utilityWhite),
       ),
       body: SafeArea(
         child: ListView.builder(
           physics: const BouncingScrollPhysics(),
           keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
           itemCount:
-            MainScreenModelProvider.watch(context)?.model.news.length ?? 0,
-
-          // itemExtent: 240,
+              MainScreenModelProvider.watch(context)?.model.news.length ?? 0,
           itemBuilder: (context, index) {
             // final newsOne = model.news.first;
             return Padding(
@@ -118,11 +96,10 @@ class MainScreen extends StatelessWidget {
                         Text(
                           'Today',
                           style: AppTextStyle.headingH4
-                              .copyWith(color: AppColors.othersMain),
+                              .copyWith(color: AppColors.othersValueMain),
                         ),
                         const SizedBox(height: 16),
                         FirstNewsWidget(index: index),
-                        // SecondNewsWidget(index: index),
                       ],
                     ),
                   ),
@@ -146,7 +123,18 @@ class FirstNewsWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // const index = 1;
+    final newsOne = MainScreenModelProvider.read(context)?.model.news[index];
+    final logoOfNews = newsOne?.logo.toString();
+    if (logoOfNews == null) {
+      return const ColoredBox(
+        color: Colors.red,
+        child: SizedBox(
+          height: 10,
+          width: 10,
+        ),
+      );
+    }
+
     return Row(
       children: [
         Expanded(
@@ -157,65 +145,16 @@ class FirstNewsWidget extends StatelessWidget {
               const SizedBox(height: 8),
               RowTwoWidget(index: index),
               const SizedBox(height: 8),
-              const RowThreeWidget(),
+              RowThreeWidget(index: index),
               const SizedBox(height: 16),
             ],
           ),
         ),
         const SizedBox(width: 16),
-        Image.asset(
-          AppImages.backgroundImage,
-          width: 80,
-          height: 80,
-          fit: BoxFit.fill,
-        ),
-      ],
-    );
-  }
-}
-
-class SecondNewsWidget extends StatelessWidget {
-  final int index;
-
-  const SecondNewsWidget({
-    super.key,
-    required this.index,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    // const index = 1;
-    // final model = MainScreenModel();
-    // final newsOne = MainScreenModelProvider.read(context)?.model.news[index];
-    // if (newsOne == null) {
-    //   return const ColoredBox(
-    //     color: Colors.red,
-    //     child: SizedBox(
-    //       height: 40,
-    //       width: 40,
-    //     ),
-    //   );
-    // }
-    return Row(
-      children: [
-        Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const RowOneWidget(),
-              const SizedBox(height: 8),
-              RowTwoWidget(index: index),
-              const SizedBox(height: 8),
-              const RowThreeWidget(),
-              const SizedBox(height: 16),
-            ],
-          ),
-        ),
-        const SizedBox(width: 16),
-        Image.asset(
-          AppImages.backgroundImage,
-          width: 80,
-          height: 80,
+        Image.network(
+          logoOfNews,
+          width: 64,
+          height: 64,
           fit: BoxFit.fill,
         ),
       ],
@@ -230,12 +169,55 @@ class RowOneWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var doubleValuePlus = Random().nextDouble();
+    final randomValuePlus = (doubleValuePlus * 10).toStringAsPrecision(3);
+
     return Row(
       children: [
-        Text(
-          'MSFT',
-          style: AppTextStyle.bodySupplementary
-              .copyWith(color: AppColors.othersMain),
+        RichText(
+          text: TextSpan(
+            children: [
+              TextSpan(
+                text: 'MSFT ',
+                style: AppTextStyle.bodySupplementary
+                    .copyWith(color: AppColors.othersValueMain),
+              ),
+              const WidgetSpan(
+                child: Icon(
+                  Icons.arrow_upward,
+                  color: AppColors.othersIncreaseMain,
+                  size: 14,
+                ),
+              ),
+              TextSpan(
+                text: (' $randomValuePlus' '%'),
+                style: AppTextStyle.bodySupplementary
+                    .copyWith(color: AppColors.othersIncreaseMain),
+              ),
+              TextSpan(
+                text: '   ·   ',
+                style: AppTextStyle.bodySupplementary
+                    .copyWith(color: AppColors.othersValueMain),
+              ),
+              TextSpan(
+                text: 'AMD ',
+                style: AppTextStyle.bodySupplementary
+                    .copyWith(color: AppColors.othersValueMain),
+              ),
+              const WidgetSpan(
+                child: Icon(
+                  Icons.arrow_downward,
+                  color: AppColors.othersDecreaseMain,
+                  size: 14,
+                ),
+              ),
+              TextSpan(
+                text: (' $randomValuePlus' '%'),
+                style: AppTextStyle.bodySupplementary
+                    .copyWith(color: AppColors.othersDecreaseMain),
+              ),
+            ],
+          ),
         ),
       ],
     );
@@ -252,10 +234,7 @@ class RowTwoWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final newsOne = MainScreenModelProvider
-        .read(context)
-        ?.model
-        .news[index];
+    final newsOne = MainScreenModelProvider.read(context)?.model.news[index];
     if (newsOne == null) {
       return const ColoredBox(
         color: Colors.red,
@@ -270,7 +249,6 @@ class RowTwoWidget extends StatelessWidget {
         Flexible(
           child: Text(
             newsOne.name.toString(),
-            // 'Lessons From Microsoft And The Dot-Com Bubble',
             style: AppTextStyle.headingH5
                 .copyWith(color: AppColors.contentPrimaryMain),
             maxLines: 2,
@@ -284,18 +262,52 @@ class RowTwoWidget extends StatelessWidget {
 }
 
 class RowThreeWidget extends StatelessWidget {
+  final int index;
+
   const RowThreeWidget({
     super.key,
+    required this.index,
   });
 
   @override
   Widget build(BuildContext context) {
+    final newsOne = MainScreenModelProvider.read(context)?.model.news[index];
+    if (newsOne == null) {
+      return const ColoredBox(
+        color: Colors.red,
+        child: SizedBox(
+          height: 20,
+          width: 20,
+        ),
+      );
+    }
+
+    var inputFormat = DateTime.parse(newsOne.lastModified.toString());
+    var outputFormat = DateFormat.yMMMd().add_Hm().format(inputFormat);
+
     return Row(
       children: [
-        Text(
-          'Seeking Alpha',
-          style: AppTextStyle.bodySupplementary
-              .copyWith(color: AppColors.othersMain),
+        RichText(
+          text: TextSpan(
+            children: [
+              TextSpan(
+                text: newsOne.symbol.toString(),
+                style: AppTextStyle.bodySupplementary
+                    .copyWith(color: AppColors.othersValueMain),
+              ),
+              TextSpan(
+                text: '   ·   ',
+                style: AppTextStyle.bodySupplementary
+                    .copyWith(color: AppColors.othersValueMain),
+              ),
+              TextSpan(
+                text: outputFormat.toString(),
+                // newsOne.lastModified.toString(),
+                style: AppTextStyle.bodySupplementary
+                    .copyWith(color: AppColors.othersValueMain),
+              ),
+            ],
+          ),
         ),
       ],
     );
