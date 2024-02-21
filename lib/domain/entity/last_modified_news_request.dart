@@ -1,56 +1,29 @@
 import 'package:json_annotation/json_annotation.dart';
-import 'last_modified_date_release.parser.dart';
 
-part 'news_request.g.dart';
+part 'last_modified_news_request.g.dart';
 
 @JsonSerializable(explicitToJson: true)
-class NewsRequest {
-  final String? id;
-  final String? symbol;
-  final String? name;
-  final String? exchange;
-  final String? mic;
-  final int? quantityPrecision;
-  final String? currency;
-  final bool? isInternal;
-  final String? issueType;
-  final String? assetClass;
-  final String? logo;
-  final List<String>? tags;
-  final int? sortOrder;
-  @JsonKey(fromJson: parseNewsLastModifiedFromString)
+class LastModifiedNewsRequest {
   // @JsonKey(
   //     toJson: _parseNewsLastModifiedToJson,
   //     fromJson: _parseNewsLastModifiedToJsonFromJson)
+  //
+  // @JsonKey(fromJson: _parseNewsLastModifiedToJsonFromJson)
+  //
   final DateTime? lastModified;
-  final Map<String, dynamic>? summary;
 
-  NewsRequest({
-    required this.id,
-    required this.symbol,
-    required this.name,
-    required this.exchange,
-    required this.mic,
-    required this.quantityPrecision,
-    required this.currency,
-    required this.isInternal,
-    required this.issueType,
-    required this.assetClass,
-    required this.logo,
-    required this.tags,
-    required this.sortOrder,
+  LastModifiedNewsRequest({
     required this.lastModified,
-    required this.summary,
   });
 
-  factory NewsRequest.fromJson(Map<String, dynamic> json) =>
-      _$NewsRequestFromJson(json);
+  factory LastModifiedNewsRequest.fromJson(Map<String, dynamic> json) =>
+      _$LastModifiedNewsRequestFromJson(json);
 
-  Map<String, dynamic> toJson() => _$NewsRequestToJson(this);
+  Map<String, dynamic> toJson() => _$LastModifiedNewsRequestToJson(this);
 
-  // static int _parseNewsLastModifiedToJson(DateTime time) =>
-  //     time.millisecondsSinceEpoch;
-  //
+  // static int _parseNewsLastModifiedToJson(DateTime? time) =>
+  //     time!.millisecondsSinceEpoch;
+
   // static DateTime _parseNewsLastModifiedToJsonFromJson(int milliseconds) =>
   //     DateTime.fromMillisecondsSinceEpoch(milliseconds);
 }
