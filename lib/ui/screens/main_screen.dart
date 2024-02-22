@@ -6,6 +6,7 @@ import 'package:intl/intl.dart';
 import '../theme/app_colors.dart';
 import '../theme/app_text_style.dart';
 import 'main_screen_model.dart';
+import 'news_detail_info_screen.dart';
 
 class Main extends StatefulWidget {
   const Main({super.key});
@@ -23,32 +24,23 @@ class _MainState extends State<Main> {
     model.updateNewsRequests();
   }
 
-  // void sendDataToFirebase() async {
-  //   FirebaseFirestore.instance
-  //       .collection('data')
-  //       .add({'timestamp': FieldValue.sereverTimestamp()});
-  // }
-
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: MainScreenModelProvider(
-        model: model,
-        child: const MainScreen(),
-      ),
+    return MainScreenModelProvider(
+      model: model,
+      child: const MainScreen(),
     );
   }
 }
 
 class MainScreen extends StatelessWidget {
-
   const MainScreen({
     super.key,
   });
 
   @override
   Widget build(BuildContext context) {
-    final model = MainScreenModelProvider.read(context);
+    // final model = MainScreenModelProvider.read(context);
     return Scaffold(
       appBar: AppBar(
         backgroundColor: AppColors.primaryMain,
@@ -74,69 +66,74 @@ class MainScreen extends StatelessWidget {
         titleTextStyle:
             AppTextStyle.headingH4.copyWith(color: AppColors.utilityWhite),
       ),
-      body: ListView.builder(
-        physics: const BouncingScrollPhysics(),
-        keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
-        itemCount:
-            MainScreenModelProvider.watch(context)?.model.news.length ?? 0,
-        itemBuilder: (context, index) {
+      //
+      // add Scrollbar
+      //
+      body: Scrollbar(
+        child: ListView.builder(
+          physics: const BouncingScrollPhysics(),
+          keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
+          itemCount:
+              MainScreenModelProvider.watch(context)?.model.news.length ?? 0,
+          itemBuilder: (context, index) {
+            final newsOne =
+                MainScreenModelProvider.read(context)?.model.news[index];
 
-          final newsOne =
-              MainScreenModelProvider.read(context)?.model.news[index];
+            var inputFormat = DateTime.parse(newsOne!.lastModified.toString());
+            var outputFormat =
+                DateFormat.d().add_MMMM().add_y().format(inputFormat);
 
-          var inputFormat = DateTime.parse(newsOne!.lastModified.toString());
-          var outputFormat =
-              DateFormat.d().add_MMMM().add_y().format(inputFormat);
-
-          return Padding(
-            padding: const EdgeInsets.only(
-              left: 0,
-              top: 24,
-              right: 0,
-              bottom: 4,
-            ),
-            child: Stack(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(
-                    left: 24,
-                    top: 0,
-                    right: 24,
-                    bottom: 0,
-                  ),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        outputFormat.toString(),
-                        // newsOne?.lastModified.toString(),
-                        style: AppTextStyle.headingH4
-                            .copyWith(color: AppColors.othersValueMain),
-                      ),
-                      const SizedBox(height: 16),
-                      Material(
-                        color: Colors.transparent,
-                        child: InkWell(
-                          borderRadius: BorderRadius.circular(10),
-                          onTap: () => model?.onNewsItemTap(context, index),
-                          child: FirstNewsWidget(index: index),
+            return Padding(
+              padding: const EdgeInsets.only(
+                left: 0,
+                top: 24,
+                right: 0,
+                bottom: 4,
+              ),
+              child: Stack(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(
+                      left: 24,
+                      top: 0,
+                      right: 24,
+                      bottom: 0,
+                    ),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          outputFormat.toString(),
+                          // newsOne?.lastModified.toString(),
+                          style: AppTextStyle.headingH4
+                              .copyWith(color: AppColors.othersValueMain),
                         ),
-                      ),
-                    ],
+                        const SizedBox(height: 16),
+                        Material(
+                          color: Colors.transparent,
+                          child: InkWell(
+                            borderRadius: BorderRadius.circular(10),
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute<Map>(
+                                  builder: (context) =>
+                                      NewsDetailsInfoScreen(newsOne: newsOne),
+                                ),
+                              );
+                            },
+                            child: FirstNewsWidget(index: index),
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-                // Material(
-                //   color: Colors.transparent,
-                //   child: InkWell(
-                //     borderRadius: BorderRadius.circular(10),
-                //     onTap: () => model?.onNewsItemTap(context, index),
-                //   ),
-                // ),
-              ],
-            ),
-          );
-        },
+                ],
+              ),
+            );
+          },
+        ),
       ),
     );
   }
@@ -185,6 +182,11 @@ class FirstNewsWidget extends StatelessWidget {
           width: 64,
           height: 64,
           fit: BoxFit.fill,
+          //  handle networkError
+          errorBuilder: (_, __, ___) {
+            return const SizedBox.shrink();
+          },
+          //
         ),
       ],
     );
