@@ -30,16 +30,25 @@ abstract class AppTextStyle {
 
   static const promo = TextStyle(
     fontFamily: 'Lato',
-    fontSize: 17,
+    fontSize: 12,
     fontStyle: FontStyle.normal,
     fontWeight: FontWeight.w500,
     height: 1.2,
     letterSpacing: 0.0,
   );
 
-  static const mfa = TextStyle(
+  static const usualTextOfNewsH8 = TextStyle(
     fontFamily: 'RobotoMono',
-    fontSize: 20,
+    fontSize: 10,
+    fontStyle: FontStyle.normal,
+    fontWeight: FontWeight.w400,
+    height: 1.25,
+    letterSpacing: 0.0,
+  );
+
+  static const usualTextOfNewsH7 = TextStyle(
+    fontFamily: 'RobotoMono',
+    fontSize: 14,
     fontStyle: FontStyle.normal,
     fontWeight: FontWeight.bold,
     height: 1.25,

@@ -5,7 +5,7 @@ import 'package:intl/intl.dart';
 
 import '../theme/app_colors.dart';
 import '../theme/app_text_style.dart';
-import 'main_screen_model.dart';
+import 'main_screen_view_model.dart';
 import 'news_detail_info_screen.dart';
 
 class Main extends StatefulWidget {
@@ -37,6 +37,8 @@ class MainScreen extends StatelessWidget {
   const MainScreen({
     super.key,
   });
+
+  // get timestamp => null;
 
   @override
   Widget build(BuildContext context) {
@@ -77,12 +79,10 @@ class MainScreen extends StatelessWidget {
               MainScreenModelProvider.watch(context)?.model.news.length ?? 0,
           itemBuilder: (context, index) {
             final newsOne =
-                MainScreenModelProvider.read(context)?.model.news[index];
-
-            var inputFormat = DateTime.parse(newsOne!.lastModified.toString());
-            var outputFormat =
-                DateFormat.d().add_MMMM().add_y().format(inputFormat);
-
+            MainScreenModelProvider.read(context)?.model.news[index];
+            if(newsOne==null){
+              return const Text('error');
+            }
             return Padding(
               padding: const EdgeInsets.only(
                 left: 0,
@@ -104,8 +104,7 @@ class MainScreen extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          outputFormat.toString(),
-                          // newsOne?.lastModified.toString(),
+                      _dateTitle(newsOne.lastModified),
                           style: AppTextStyle.headingH4
                               .copyWith(color: AppColors.othersValueMain),
                         ),
@@ -136,6 +135,38 @@ class MainScreen extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  String  _dateTitle(DateTime? newsDate){
+
+    final inputFormat =newsDate;
+    if(inputFormat==null){
+      return 'Date error';
+    }
+    final today=DateTime.now();
+    final isToday=inputFormat.year==today.year&&inputFormat.month==today.month&&inputFormat.day==today.day;
+
+    if(isToday){
+      return 'Today';
+    }
+    else  if(isYesterday(inputFormat)){
+      return 'Yesterday';
+    }else {
+      return  DateFormat.d().add_MMMM().add_y().format(inputFormat);
+    }
+  }
+
+  bool isYesterday(DateTime date) {
+    // getting the current date
+    DateTime now = DateTime.now();
+
+    // getting the date for yesterday
+    DateTime yesterday = now.subtract(const Duration(days: 1));
+
+    // compare whether a given date is equal to the date yesterday
+    return date.year == yesterday.year &&
+        date.month == yesterday.month &&
+        date.day == yesterday.day;
   }
 }
 

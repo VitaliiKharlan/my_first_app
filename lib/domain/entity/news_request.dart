@@ -1,28 +1,56 @@
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'last_modified_date_release.parser.dart';
 
 part 'news_request.g.dart';
 
+@HiveType(typeId: 2)
 @JsonSerializable(explicitToJson: true)
 class NewsRequest {
+  @HiveField(0)
   final String? id;
+
+  @HiveField(1)
   final String? symbol;
+
+  @HiveField(2)
   final String? name;
+
+  @HiveField(3)
   final String? exchange;
+
+  @HiveField(4)
   final String? mic;
+
+  @HiveField(5)
   final int? quantityPrecision;
+
+  @HiveField(6)
   final String? currency;
+
+  @HiveField(7)
   final bool? isInternal;
+
+  @HiveField(8)
   final String? issueType;
+
+  @HiveField(9)
   final String? assetClass;
+
+  @HiveField(10)
   final String? logo;
+
+  @HiveField(11)
   final List<String>? tags;
+
+  @HiveField(12)
   final int? sortOrder;
+
+  @HiveField(13)
   @JsonKey(fromJson: parseNewsLastModifiedFromString)
-  // @JsonKey(
-  //     toJson: _parseNewsLastModifiedToJson,
-  //     fromJson: _parseNewsLastModifiedToJsonFromJson)
   final DateTime? lastModified;
+
+  @HiveField(14)
   final Map<String, dynamic>? summary;
 
   NewsRequest({
@@ -48,11 +76,7 @@ class NewsRequest {
 
   Map<String, dynamic> toJson() => _$NewsRequestToJson(this);
 
-  // static int _parseNewsLastModifiedToJson(DateTime time) =>
-  //     time.millisecondsSinceEpoch;
-  //
-  // static DateTime _parseNewsLastModifiedToJsonFromJson(int milliseconds) =>
-  //     DateTime.fromMillisecondsSinceEpoch(milliseconds);
+
 }
 
 /*
